@@ -84,3 +84,57 @@ func main() {
 	wg.Wait()
 	fmt.Println("All images pulled successfully.")
 }
+
+
+
+ server:
+#  address: "127.0.0.1"
+#  port: 8080
+#
+#database:
+#  host: "localhost"
+#  port: 3306
+#  username: "user"
+#  password: "password"
+#And you want to unmarshal only the server section into a Go struct:
+#
+#go
+#Copy code
+#package main
+#
+#import (
+#	"fmt"
+#	"gopkg.in/yaml.v2"
+#	"io/ioutil"
+#)
+#
+#type ServerConfig struct {
+#	Address string `yaml:"address"`
+#	Port    int    `yaml:"port"`
+#}
+#
+#func main() {
+#	// Read the YAML file into a byte slice
+#	yamlFile, err := ioutil.ReadFile("config.yaml")
+#	if err != nil {
+#		fmt.Printf("Error reading YAML file: %v\n", err)
+#		return
+#	}
+#
+#	// Create an instance of the struct to unmarshal the YAML data into
+#	var serverConfig ServerConfig
+#
+#	// Unmarshal the YAML data into the struct
+#	err = yaml.Unmarshal(yamlFile, &serverConfig)
+#	if err != nil {
+#		fmt.Printf("Error unmarshaling YAML: %v\n", err)
+#		return
+#	}
+#
+#	// Access the data in the struct
+#	fmt.Printf("Server Address: %s\n", serverConfig.Address)
+#	fmt.Printf("Server Port: %d\n", serverConfig.Port)
+#}
+#In this code, we unmarshal only the server section of the YAML file by defining a ServerConfig struct that corresponds to that section. We use the same yaml.Unmarshal function, but it will only populate the fields specified in the ServerConfig struct. The result will be that the serverConfig struct contains only the data from the server section of the YAML file.
+#
+#Make sure to replace "config.yaml" with the path to your YAML file.
