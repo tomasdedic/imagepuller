@@ -57,5 +57,7 @@ images:
 - name: c1pltdevopsbase.azurecr.io/docker.io/library/alpine
   tag: 3.9.6
   SHA256: sha256:2b7412e6465c3c7fc5bb21d3e6f1917c167358449fecac8176c6e496e5c1f05f
-
+- name: c1pltdevopsbase.acurecr.io/mcr.microsoft.com/azurefunction/nodes
+  SHA256: sha256:2b7412e6465c3c7fc5bb21d3e6f1917c167358449fecac8176c6e496e5c1f05f
+  tag: 3
 ---

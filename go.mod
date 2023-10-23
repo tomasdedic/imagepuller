@@ -1,6 +1,6 @@
 module imagepuller
 
-go 1.21.3
+go 1.21
 
 require (
 	github.com/docker/docker v24.0.6+incompatible

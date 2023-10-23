@@ -1,0 +1,8 @@
+images:
+- name: docker.io/library/debian
+  tag: latest
+- name: docker.io/library/ubuntu
+  tag: latest
+- name: docker.io/library/alpine
+  tag: latest
+
