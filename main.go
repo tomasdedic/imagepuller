@@ -11,19 +11,17 @@ import (
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
+	"github.com/google/go-containerregistry/pkg/name"
+	"github.com/google/go-containerregistry/pkg/v1/remote"
 	"gopkg.in/yaml.v2"
 )
 
-var imageURLs = []string{
-	"docker.io/library/alpine:latest",
-	"docker.io/library/ubuntu:latest",
-	"docker.io/library/debian:latest",
-	// Add more image URLs as needed
-}
-
+// define YAML struct as in config file
 type Image struct {
-	Name string `yaml:"name"`
-	Tag  string `yaml:"tag"`
+	Name      string `yaml:"name"`
+	Tag       string `yaml:"tag"`
+	SrcSHA256 string `yaml:"srcsha,omitempty"`
+	DstSHA256 string `yaml:"dstsha,omitempty"`
 }
 
 type ImagesDefinition struct {
@@ -49,7 +47,7 @@ func readImagesFromYaml(conf string) []Image {
 
 	// Access the data in the struct
 	for _, image := range imgdef.Image {
-		fmt.Println(image.Name, image.Tag)
+		// fmt.Println(image.Name, image.Tag)
 		images = append(images, image)
 	}
 	return images
@@ -71,7 +69,29 @@ func pullImage(imageURL string, cli *client.Client, wg *sync.WaitGroup) {
 	fmt.Printf("Image %s has been pulled successfully.\n", imageURL)
 }
 
+func getSHA256checksum(imageName string, imageTag string) {
+	// Create a reference to the image.
+	ref, err := name.ParseReference(fmt.Sprintf("%s:%s", imageName, imageTag))
+	if err != nil {
+		fmt.Printf("Failed to parse image reference: %v\n", err)
+		return
+	}
+	// Fetch the image information.
+	imgInfo, err := remote.Get(ref)
+	if err != nil {
+		fmt.Printf("Failed to fetch image information: %v\n", err)
+		return
+	}
+
+	// Extract the image digest (SHA) from the image information.
+	fmt.Printf("Image Digest (SHA): %s\n", imgInfo.Digest)
+}
+
 func main() {
+	// registriesmapping := map[string]string {
+	// 	"docker.io" : "",
+	// 	"quay.io" : "",
+	// }
 	processimages := readImagesFromYaml("config.yaml")
 	cli, err := client.NewEnvClient()
 	if err != nil {
