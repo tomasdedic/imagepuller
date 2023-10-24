@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"sync"
@@ -20,7 +19,7 @@ import (
 type Image struct {
 	Name      string `yaml:"name"`
 	Tag       string `yaml:"tag"`
-	SrcSHA256 string `yaml:"srcsha,omitempty"`
+	SrcSHA256 string `yaml:"   srcsha,omitempty"`
 	DstSHA256 string `yaml:"dstsha,omitempty"`
 }
 
@@ -30,9 +29,10 @@ type ImagesDefinition struct {
 
 func readImagesFromYaml(conf string) []Image {
 	// Read the YAML file into a byte slice
-	yamlFile, err := ioutil.ReadFile(conf)
+	yamlFile, err := os.ReadFile(conf)
 	if err != nil {
 		log.Fatal(err)
+
 	}
 
 	// Create an instance of the struct to unmarshal the YAML data into
